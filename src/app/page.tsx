@@ -1,6 +1,16 @@
 "use client";
+import {
+  Input,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { User } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 export default function Home() {
   const [result, setResult] = useState<User[] | undefined>();
@@ -11,11 +21,37 @@ export default function Home() {
     });
   }, []);
 
-  console.log();
   return (
     <div>
-      hello
-      {result && result?.map((user) => <div key={user.id}>{user.name}</div>)}
+      <TableContainer>
+        <Table variant="striped">
+          <Thead>
+            <Tr>
+              <Th>name</Th>
+              <Th>id</Th>
+              <Th>email</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {result &&
+              result?.map((user) => <UserCard key={user.id} user={user} />)}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Input placeholder="Basic usage" />
     </div>
   );
 }
+
+type UserCardProps = {
+  user: User;
+};
+const UserCard: FC<UserCardProps> = ({ user }) => {
+  return (
+    <Tr>
+      <Td>{user.name}</Td>
+      <Td>{user.id}</Td>
+      <Td>{user.email}</Td>
+    </Tr>
+  );
+};
