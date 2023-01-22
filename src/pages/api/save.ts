@@ -17,10 +17,9 @@ export default function handler(
 ) {
   const prisma = new PrismaClient();
   const requestHandler = async () => {
-    const { id, email, name } = JSON.parse(req.body);
+    const { email, name } = JSON.parse(req.body);
     const user = await prisma.user.create({
       data: {
-        id,
         email,
         name,
       },
